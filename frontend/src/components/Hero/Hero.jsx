@@ -9,7 +9,7 @@ const Hero = () => {
         <div className="">
           <p className="text-base md:text-lg">Where Champions Are Made...</p>
           <h2 className="pb-4 pt-8 text-3xl md:text-6xl font-bold">
-            RISING SUN FOOTBALL <span className="text-[#78FF40]">ACADEMY</span>
+            RISING SUN FOOTBALL <span className="text-[#FFD700]">ACADEMY</span>
           </h2>
           <div className="text-white py-5">
           <ReactTyped
@@ -24,7 +24,7 @@ const Hero = () => {
         </div>
         </div>
         <div className="py-12">
-          <button className="rounded-sm bg-[#D7FF40] px-6 md:px-8 py-2 md:py-3 font-semibold text-black hover:bg-[#B5D53E]">
+          <button className="rounded-sm bg-[#FFD700] px-6 md:px-8 py-2 md:py-3 font-semibold text-black hover:bg-[#B5D53E]">
             Join Now
           </button>
         </div>
