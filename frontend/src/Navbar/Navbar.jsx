@@ -16,8 +16,8 @@ const Navbar = () => {
   return (
     <div className="bg-[#010B13] p-4 text-white shadow-lg">
       <div className="max-w-[1600px] flex items-center justify-between mx-auto py-[15px]">
-        <h2 className="text-xl md:text-2xl font-bold ml-4">
-          RISING SUN <span className="text-[#FFD700]">FA</span>
+        <h2 className="text-xl md:text-2xl font-bold ml-12">
+          RISING SUN <span className="text-[#78FF40]">FA</span>
         </h2>
         <div className="hidden md:flex items-center space-x-6">
           <FlyoutLink href="#" className="text-sm md:text-base">Home</FlyoutLink>
@@ -35,8 +35,11 @@ const Navbar = () => {
           </FlyoutLink>
         </div>
         <div className="hidden md:block">
-          <button className="rounded-sm bg-[#FFD700] px-4 py-2 text-sm md:px-6 md:py-2 font-semibold text-black hover:bg-[#B5D53E]">
+          <button className="rounded-sm bg-[#D7FF40] mx-2 px-4 py-2 text-sm md:px-6 md:py-2 font-semibold text-black hover:bg-[#B5D53E]">
             Login
+          </button>
+          <button className="rounded-sm bg-[#D7FF40] mx-2 mr-8 px-4 py-2 text-sm md:px-6 md:py-2 font-semibold text-black hover:bg-[#B5D53E]">
+            Sign up
           </button>
         </div>
         <div className="md:hidden text-white text-2xl">
