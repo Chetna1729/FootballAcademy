@@ -3,3 +3,8 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.custom-gradient-bg {
+    @apply min-h-screen;
+    background: radial-gradient(circle, rgba(40,98,16,1) 0%, rgba(0,0,0,1) 36%);
+  }
