@@ -1,8 +1,8 @@
 // eslint-disable-next-line no-unused-vars
 import React from "react";
-import '../index.css'
+import '../../index.css'
 import { Link } from 'react-router-dom';
-import ArrowUp from '../assets/arrow-up.png'
+import ArrowUp from '../../assets/arrow-up.png'
 
 const Hero = () => {
   return (

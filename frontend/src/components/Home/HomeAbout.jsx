@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react'
-import BenefitCard from '../components/BenefitCard';
+import BenefitCard from '../BenefitCard';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
-import coachImg from '../assets/undraw_teaching_re_g7e3.svg'
-import oppurnityImg from '../assets/undraw_junior_soccer_6sop.svg'
-import supportImg from '../assets/undraw_fans_re_cri3.svg'
-import facilityImg from '../assets/undraw_goal_-0-v5v.svg'
+import coachImg from '../../assets/undraw_teaching_re_g7e3.svg'
+import oppurnityImg from '../../assets/undraw_junior_soccer_6sop.svg'
+import supportImg from '../../assets/undraw_fans_re_cri3.svg'
+import facilityImg from '../../assets/undraw_goal_-0-v5v.svg'
 
 
 const benefits = [
@@ -26,7 +26,7 @@ const benefits = [
   },
   {
     image: oppurnityImg,
-    title: 'Oppurtunity',
+    title: 'Opportunity',
     description: 'Get a chance to experience exciting tournaments alongside our dedicated and talented football team.',
   },
 ];

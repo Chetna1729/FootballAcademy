@@ -2,7 +2,7 @@ import mongoose, { Schema } from "mongoose";
 import crypto from "crypto"
 
 const userSchema = new mongoose.Schema({
-    userName: {
+    username: {
         type: String,
         required: true
     },

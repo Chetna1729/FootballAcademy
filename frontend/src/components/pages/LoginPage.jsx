@@ -29,8 +29,10 @@ const LoginPage = () => {
           withCredentials: true,
         });
         if(res.data.success) {
-          toast.success("Logged in successfully");
+          const userName = res.data.userName || 'User'; // Assuming the backend returns `userName` in `res.data`
+          toast.success(`Logged in successfully, ${userName}`);
           navigate("/");
+          
         }
       } catch (error) {
         console.log(error);

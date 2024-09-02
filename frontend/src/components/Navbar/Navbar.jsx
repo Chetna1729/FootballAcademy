@@ -14,6 +14,14 @@ const Navbar = () => {
     setIsMenuOpen(!isMenuOpen);
   };
 
+  const [isLoggedin, setIsLoggedIn] = useState(false);
+
+  const handleLogin = () => {
+    setIsLoggedIn(true);
+  }
+  const handleLogout = () => {
+    setIsLoggedIn(false);
+  }
   return (
     <div className="bg-[#010B13] p-4 text-white shadow-lg">
       <div className="max-w-[1600px] flex items-center justify-between mx-auto py-[15px]">
@@ -35,14 +43,22 @@ const Navbar = () => {
             Contact
           </FlyoutLink>
         </div>
-        <div className="hidden md:block">
-          <Link to="/login" className="rounded-sm bg-[#D7FF40] mx-2 px-4 py-2 text-sm md:px-6 md:py-2 font-semibold text-black hover:bg-[#B5D53E]">
+        {
+          isLoggedin ? (
+            <div>
+              <button className="bg-[#78FF40] py-2 px-4 rounded-md
+              hover:bg-[#66CC00] transition duration-300" onClick={handleLogout}>Logout
+              </button>
+            </div>  
+          ) : (
+            <div className="hidden md:block">
+          <Link to="/login" onClick={handleLogin} className="rounded-sm bg-[#D7FF40] mx-2 px-4 py-2 text-sm md:px-6 md:py-2 font-semibold text-black hover:bg-[#B5D53E]">
             Login
           </Link>
-          <Link to="/register" className="rounded-sm bg-[#D7FF40] mx-2 mr-8 px-4 py-2 text-sm md:px-6 md:py-2 font-semibold text-black hover:bg-[#B5D53E]">
-            Sign up
-          </Link>
         </div>
+          )
+        }
+        
         <div className="md:hidden text-white text-2xl">
           {isMenuOpen ? (
             <AiOutlineClose onClick={toggleMenu} className='text-white text-2xl md:hidden block'/>

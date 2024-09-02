@@ -5,14 +5,11 @@ import { User } from "../models/user.model.js";
 import { sendEmail } from '../utils/sendEmail.js';
 
 // Registration
-export const register = async (req, res) => {
+export const register = async (req, res, next) => {
   try {
-    const { userName, email, password } = req.body;
-    if (!userName || !email || !password) {
-      return res.status(400).json({
-        message: "Please fill in all fields.",
-        success: false,
-      });
+    const { username, email, password } = req.body;
+    if(!username || !email || !password) {
+      return res.status(400).json({ message: "Please fill in all fields" });
     }
     let existingUser = await User.findOne({ email });
     if (existingUser) {
@@ -24,7 +21,7 @@ export const register = async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, 10);
     
     await User.create({
-      userName,
+      username,
       email,
       password: hashedPassword
     })
@@ -35,10 +32,7 @@ export const register = async (req, res) => {
     });
     
   } catch (error) {
-    res.status(500).json({
-      message: "Failed to create user.",
-      success: false,
-    }); 
+    res.status(400).json({ msg: error});
   }
 };
 
@@ -72,19 +66,20 @@ export const login = async (req, res) => {
     const token = jwt.sign(tokenData, process.env.SECRET_KEY, ({ expiresIn: '1d' }))
     user = {
       _id: user._id,
-      userName: user.userName,
+      username: user.username,
     }
     return res.status(200).cookie("token", token, {maxAge:1*24*60*60*1000, httpOnly:true, sameSite:'strict'}).json({
-      message: `Welcome ${user.userName}`,
+      message: `Welcome ${user.username}`,
+      username: user.username,
       success: true
-    })
+    });
   }
   catch(error) {
     console.error("Login Error:", error);
     res.status(500).json({
       message: "Failed to login user.",
       success: false,
-    })
+    });
   }
 }
 
@@ -126,8 +121,8 @@ export const getMyProfile = async (req, res, next) => {
 // Update Profile
 export const updateProfile = async (req, res) => {
   try {
-    const { userName } = req.body;
-    if(!userName) {
+    const { username } = req.body;
+    if(!username) {
       return res.status(500).json({
         message: "Please fill all fields",
         success: false
@@ -143,7 +138,7 @@ export const updateProfile = async (req, res) => {
     }
 
     // Updating Data
-    user.userName = userName;
+    user.username = username;
     await user.save();
 
     return res.status(200).json({
