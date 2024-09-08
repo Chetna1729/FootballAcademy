@@ -1,12 +1,14 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import toast from 'react-hot-toast';
+import { UserContext } from '../App';
 
 export const USER_API_END_POINT = "http://localhost:8000/api/v1/user/login";
 
 const LoginPage = () => {
 
+  const {state, dispatch} = useContext(UserContext);  
     const [input, setInput] = useState({
         email:"",
         password:""
@@ -29,12 +31,13 @@ const LoginPage = () => {
           withCredentials: true,
         });
         if(res.data.success) {
+          dispatch({type:"USER", payload:true}) 
           toast.success("Logged in successfully");
           navigate("/");
         }
       } catch (error) {
         console.log(error);
-        toast.error("Invalid credentials");
+        toast.error("Invalid credentials"); 
       }
   }
 
