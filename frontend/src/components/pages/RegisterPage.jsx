@@ -7,7 +7,7 @@ export const USER_API_END_POINT = "http://localhost:8000/api/v1/user/register";
 
 const RegisterPage = () => {
     const [input, setInput] = useState({
-        userName: "",
+        username: "",
         email: "",
         password: ""
     });
@@ -54,8 +54,8 @@ const RegisterPage = () => {
                         <label className="block mb-2">Name</label>
                         <input
                             type="text"
-                            name="userName"
-                            value={input.userName}
+                            name="username"
+                            value={input.username}
                             onChange={changeEventHandler}
                             className="bg-gray-700 w-full p-2 rounded text-white"
                             required
