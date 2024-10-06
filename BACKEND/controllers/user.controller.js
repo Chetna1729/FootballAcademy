@@ -4,6 +4,29 @@ import crypto from "crypto";
 import { User } from "../models/user.model.js";
 import { sendEmail } from '../utils/sendEmail.js';
 
+
+const options = {
+  httpOnly: true,
+  secure: true,
+  sameSite: 'lax',
+};
+
+const generateAccessAndRefreshTokens = async (userId) => {
+  try {
+    const user = await User.findById(userId);
+    const accessToken = user.generateAccessToken();
+    const refreshToken = user.generateRefreshToken();
+
+    user.refreshToken = refreshToken;
+    await user.save({ validateBeforeSave: false });
+
+    return { accessToken, refreshToken };
+  } catch (error) {
+    console.log(error);
+
+  }
+};
+
 // Registration
 export const register = async (req, res) => {
   try {
@@ -22,7 +45,7 @@ export const register = async (req, res) => {
       });
     }
     const hashedPassword = await bcrypt.hash(password, 10);
-    
+
     await User.create({
       userName,
       email,
@@ -33,12 +56,12 @@ export const register = async (req, res) => {
       message: "User registered successfully.",
       success: true,
     });
-    
+
   } catch (error) {
     res.status(500).json({
       message: "Failed to create user.",
       success: false,
-    }); 
+    });
   }
 };
 
@@ -46,40 +69,45 @@ export const register = async (req, res) => {
 export const login = async (req, res) => {
   try {
     const { email, password } = req.body;
-    if(!email || !password ) {
-      return res.status(400).json({
-        message: "Please fill in all fields.",
-        success: false,
-      })
+
+    if (!email) {
+      return res.status(400).json("email is required");
     }
-    let user = await User.findOne({ email });
-    if(!user) {
-      return res.status(400).json({
-        message: "Invalid email or password",
-        success: false,
-      })
+
+    const user = await User.findOne({ email });
+
+    if (!user) {
+      return res.status(404).json("User does not exist");
     }
-    const isPasswordMatch = await bcrypt.compare(password, user.password);
-    if(!isPasswordMatch) {
-      return res.status(400).json({
-        message: "Invalid email or password",
-        success: false,
-      })
+
+    const isPasswordValid = await user.isPasswordCorrect(password);
+
+    if (!isPasswordValid) {
+      return res.status(401).json("Invalid user credentials");
     }
-    const tokenData = {
-      userId: user._id
-    }
-    const token = jwt.sign(tokenData, process.env.SECRET_KEY, ({ expiresIn: '1d' }))
-    user = {
-      _id: user._id,
-      userName: user.userName,
-    }
-    return res.status(200).cookie("token", token, {maxAge:1*24*60*60*1000, httpOnly:true, sameSite:'strict'}).json({
-      message: `Welcome ${user.userName}`,
-      success: true
-    })
+
+    const { accessToken, refreshToken } = await generateAccessAndRefreshTokens(
+      user._id
+    );
+
+    const loggedInUser = await User.findById(user._id).select(
+      "-password -refreshToken"
+    );
+
+    return res
+      .status(200)
+      .cookie("accessToken", accessToken, options)
+      .cookie("refreshToken", refreshToken, options)
+      .json(
+        {
+        loggedInUser,
+        accessToken,
+        refreshToken,
+        message: "User logged In Successfully"
+      },
+      )
   }
-  catch(error) {
+  catch (error) {
     console.error("Login Error:", error);
     res.status(500).json({
       message: "Failed to login user.",
@@ -91,7 +119,7 @@ export const login = async (req, res) => {
 // Logout
 export const logout = async (req, res) => {
   try {
-    return res.status(200).cookie("token","", {maxAge: 0}).json({
+    return res.status(200).cookie("token", "", { maxAge: 0 }).json({
       message: "Logged out successfully",
       success: true
     })
@@ -107,7 +135,7 @@ export const logout = async (req, res) => {
 export const getMyProfile = async (req, res, next) => {
   try {
     const user = await User.findById(req.user._id);
-    if(!user) {
+    if (!user) {
       return res.status(404).json({
         message: "User not found",
         success: false
@@ -121,13 +149,13 @@ export const getMyProfile = async (req, res, next) => {
   } catch (error) {
     console.log(error);
   }
-} 
+}
 
 // Update Profile
 export const updateProfile = async (req, res) => {
   try {
     const { userName } = req.body;
-    if(!userName) {
+    if (!userName) {
       return res.status(500).json({
         message: "Please fill all fields",
         success: false
@@ -135,7 +163,7 @@ export const updateProfile = async (req, res) => {
     }
 
     const user = await User.findById(req.user._id);
-    if(!user) {
+    if (!user) {
       return res.status(500).json({
         message: "User not found",
         success: false
@@ -165,7 +193,7 @@ export const forgetPassword = async (req, res, next) => {
   try {
     const { email } = req.body;
     const user = await User.findOne({ email });
-    if(!user) {
+    if (!user) {
       res.status(500).json({
         message: "Email Not Found",
         success: false,
@@ -195,7 +223,7 @@ export const forgetPassword = async (req, res, next) => {
 
 
 // Reset Password
-export const resetPassword = async(req, res, next) => {
+export const resetPassword = async (req, res, next) => {
   try {
     const { token } = req.params;
     const resetPasswordToken = crypto.createHash("sha256").update(token).digest("hex");
@@ -204,7 +232,7 @@ export const resetPassword = async(req, res, next) => {
       resetPasswordTokenExpire: { $gt: Date.now() }
     })
 
-    if(!user) {
+    if (!user) {
       console.log(resetPasswordToken)
       return res.status(400).json({
         message: "Invalid token or expired token",
@@ -222,7 +250,7 @@ export const resetPassword = async(req, res, next) => {
       message: "Password changed successfully",
       success: true,
       token
-    }) 
+    })
   } catch (error) {
     console.log(error)
     res.status(500).json({

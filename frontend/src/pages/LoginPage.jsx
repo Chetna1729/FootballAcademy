@@ -30,11 +30,11 @@ const LoginPage = () => {
           },
           withCredentials: true,
         });
-        if(res.data.success) {
-          dispatch({type:"USER", payload:true}) 
+        
+          dispatch({type:"USER", payload:res?.loggedInUser}) 
           toast.success("Logged in successfully");
           navigate("/");
-        }
+        
       } catch (error) {
         console.log(error);
         toast.error("Invalid credentials"); 

@@ -12,6 +12,7 @@ import { Toaster } from "react-hot-toast";
 import Profile from "./pages/Profile";
 import { initialState, reducer } from "./reducer/UseReducer";
 import Logout  from "./pages/Logout"
+import Success from "./pages/Success"
 
 
 
@@ -30,6 +31,7 @@ const Routing = () => {
         <Route path="/register" element={<RegisterPage/>} />
         <Route path="/profile" element={<Profile/>} />
         <Route path="/logout" element={<Logout/>} />
+        <Route path="/success" element={<Success />} />
       </Routes>
       <Toaster position="bottom-right" reverseOrder={false} />
     </Router>

@@ -28,7 +28,7 @@ app.use("/api/v1/user", userRoute);
 app.use("/admin/team", teamRoute);
 app.use("/admin/player", playerRoute);
 
+connectDB();
 app.listen(PORT, () => {
-    connectDB();
     console.log(`Server is running on port ${PORT}`);
 })
