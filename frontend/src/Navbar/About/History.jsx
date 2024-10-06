@@ -1,11 +1,23 @@
-// HistoryPage.jsx
+// eslint-disable-next-line no-unused-vars
 import React from "react";
+import { Link } from "react-router-dom";
+import {
+  VerticalTimeline,
+  VerticalTimelineElement,
+} from "react-vertical-timeline-component";
+import "react-vertical-timeline-component/style.min.css";
+import { FaArrowLeft,FaTrophy, FaMapMarkerAlt, FaHandshake, FaLightbulb } from "react-icons/fa";
+import tboys from "../../assets/tboys.jpg"; 
 
 const HistoryPage = () => {
   return (
     <div className="font-pop bg-[#010B13] text-white min-h-screen p-6">
       <header className="py-4">
-        <h1 className="text-4xl font-bold">History</h1>
+      <Link to="/" className="flex items-center text-yellow-400 hover:underline">
+          <FaArrowLeft className="mr-2" /> Back to Home
+        </Link>
+        <img src={tboys} alt="Academy Team" className="w-full h-64 object-cover" />
+        <h1 className="text-4xl font-bold mt-4">History</h1>
       </header>
       <main>
         <section className="py-6">
@@ -19,13 +31,71 @@ const HistoryPage = () => {
         </section>
         <section className="py-6">
           <h2 className="text-2xl font-semibold">Milestones</h2>
-          <ul className="mt-4 list-disc pl-5">
-            <li>2010: Academy Founded</li>
-            <li>2012: First Major Championship Win</li>
-            <li>2015: Expansion to Multiple Locations</li>
-            <li>2018: Partnership with International Coaches</li>
-            <li>2020: Launch of Advanced Training Programs</li>
-          </ul>
+          <VerticalTimeline>
+            <VerticalTimelineElement
+              className="vertical-timeline-element--work"
+              contentStyle={{ background: "#333", color: "#fff" }}
+              contentArrowStyle={{ borderRight: "7px solid  #333" }}
+              date="2010"
+              iconStyle={{ background: "yellow", color: "#333" }}
+              icon={<FaMapMarkerAlt />}
+            >
+              <h3 className="vertical-timeline-element-title">Academy Founded</h3>
+              <p>Rising Sun Football Academy was established.</p>
+            </VerticalTimelineElement>
+            <VerticalTimelineElement
+              className="vertical-timeline-element--work"
+              contentStyle={{ background: "#333", color: "#fff" }}
+              contentArrowStyle={{ borderRight: "7px solid  #333" }}
+              date="2012"
+              iconStyle={{ background: "yellow", color: "#333" }}
+              icon={<FaTrophy />}
+            >
+              <h3 className="vertical-timeline-element-title">
+                First Major Championship Win
+              </h3>
+              <p>Our academy secured its first major championship victory.</p>
+            </VerticalTimelineElement>
+            <VerticalTimelineElement
+              className="vertical-timeline-element--work"
+              contentStyle={{ background: "#333", color: "#fff" }}
+              contentArrowStyle={{ borderRight: "7px solid  #333" }}
+              date="2015"
+              iconStyle={{ background: "yellow", color: "#333" }}
+              icon={<FaLightbulb />}
+            >
+              <h3 className="vertical-timeline-element-title">
+                Expansion to Multiple Locations
+              </h3>
+              <p>We expanded our academy to multiple locations.</p>
+            </VerticalTimelineElement>
+            <VerticalTimelineElement
+              className="vertical-timeline-element--work"
+              contentStyle={{ background: "#333", color: "#fff" }}
+              contentArrowStyle={{ borderRight: "7px solid  #333" }}
+              date="2018"
+              iconStyle={{ background: "yellow", color: "#333" }}
+              icon={<FaHandshake />}
+            >
+              <h3 className="vertical-timeline-element-title">
+                Partnership with International Coaches
+              </h3>
+              <p>We partnered with international coaches to enhance training.</p>
+            </VerticalTimelineElement>
+            <VerticalTimelineElement
+              className="vertical-timeline-element--work"
+              contentStyle={{ background: "#333", color: "#fff" }}
+              contentArrowStyle={{ borderRight: "7px solid  #333" }}
+              date="2020"
+              iconStyle={{ background: "yellow", color: "#333" }}
+              icon={<FaLightbulb />}
+            >
+              <h3 className="vertical-timeline-element-title">
+                Launch of Advanced Training Programs
+              </h3>
+              <p>Our academy launched advanced training programs.</p>
+            </VerticalTimelineElement>
+          </VerticalTimeline>
         </section>
       </main>
     </div>
