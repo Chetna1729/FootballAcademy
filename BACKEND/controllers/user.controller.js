@@ -70,16 +70,21 @@ export const login = async (req, res) => {
   try {
     const { email, password } = req.body;
 
+    console.log(email, password);
+    
+
     if (!email) {
       return res.status(400).json("email is required");
     }
 
     const user = await User.findOne({ email });
+    console.log(user);
+    
 
     if (!user) {
       return res.status(404).json("User does not exist");
     }
-
+    
     const isPasswordValid = await user.isPasswordCorrect(password);
 
     if (!isPasswordValid) {

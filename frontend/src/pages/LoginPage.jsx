@@ -22,6 +22,8 @@ const LoginPage = () => {
     };
 
     const handleSubmit = async (e) => {
+      console.log(input);
+      
       e.preventDefault();
       try {
         const res = await axios.post(USER_API_END_POINT, input, {
