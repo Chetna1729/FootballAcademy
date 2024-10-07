@@ -9,7 +9,7 @@ import playerRoute from './routes/player.route.js'
 
 dotenv.config();
 
-const app = express(); // RAND
+const app = express(); 
 
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
